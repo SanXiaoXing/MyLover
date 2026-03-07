@@ -8,8 +8,10 @@
     "preview": "astro preview",
     "astro": "astro"
   },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "dependencies": {
-    "@astrojs/node": "^9.5.4",
     "@astrojs/vercel": "^9.0.4",
     "@tailwindcss/vite": "^4.2.1",
     "@types/canvas-confetti": "^1.9.0",

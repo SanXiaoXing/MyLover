@@ -1,0 +1,36 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="fixed bottom-0 left-0 w-full z-50 px-6 py-4 md:px-12 md:py-6 flex justify-between items-end mix-blend-difference text-white opacity-0 pointer-events-none md:pointer-events-auto" id="main-footer">
+  <div class="text-xs font-light tracking-widest opacity-60">
+    &copy; {currentYear} LOVER. ALL RIGHTS RESERVED.
+  </div>
+
+  <div class="flex gap-6 text-xs font-light tracking-widest uppercase">
+    <a href="https://v.douyin.com/UdSnt7JD9Ss/ 9@2.com " class="hover:opacity-60 transition-opacity pointer-events-auto">TikTok</a>
+    <a href="https://space.bilibili.com/476596573" class="hover:opacity-60 transition-opacity pointer-events-auto">Bilibili</a>
+  </div>
+</footer>
+
+<script>
+  import { gsap } from "gsap";
+
+  const footer = document.getElementById('main-footer');
+  
+  if (footer) {
+    gsap.to(footer, {
+      opacity: 1,
+      y: 0,
+      duration: 1.5,
+      ease: "power3.out",
+      delay: 0.8
+    });
+  }
+</script>
+
+<style>
+  #main-footer {
+    transform: translateY(20px);
+  }
+</style>

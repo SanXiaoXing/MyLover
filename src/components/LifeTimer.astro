@@ -1,4 +1,10 @@
 ---
+import { content } from '../data/content';
+
+const lang = Astro.url.searchParams.get('lang') || 'zh';
+const currentContent = content[lang as keyof typeof content] || content['zh'];
+const { lifeTimer } = currentContent;
+
 interface Props {
   birthDate: string | Date;
   mode?: 'life' | 'love';
@@ -7,24 +13,41 @@ interface Props {
 const { birthDate, mode = 'life' } = Astro.props;
 ---
 
-<div class="fixed bottom-12 left-0 right-0 text-center select-none pointer-events-none">
+<div class="fixed bottom-24 left-0 right-0 text-center select-none pointer-events-none opacity-0 translate-y-4" id="life-timer-container">
   <span 
     id="life-timer" 
-    class="font-body text-zinc-400 text-sm tracking-wide opacity-80"
+    class="font-body text-zinc-400 text-sm tracking-wide"
     data-birth-date={new Date(birthDate).toISOString()}
     data-mode={mode}
+    data-text-love={lifeTimer.love}
+    data-text-life={lifeTimer.life}
   >
     <!-- Initial render on server if possible? No, time changes. -->
-    计算中...
+    {lifeTimer.calculating}
   </span>
 </div>
 
 <script>
+  import { gsap } from "gsap";
+
+  const timerContainer = document.getElementById('life-timer-container');
   const timerElement = document.getElementById('life-timer');
+  
+  if (timerContainer) {
+    gsap.to(timerContainer, {
+      opacity: 0.8,
+      y: 0,
+      duration: 1.5,
+      ease: "power3.out",
+      delay: 1
+    });
+  }
   
   if (timerElement && timerElement.dataset.birthDate) {
     const startDate = new Date(timerElement.dataset.birthDate);
     const mode = timerElement.dataset.mode || 'life';
+    const textLove = timerElement.dataset.textLove || "恋爱 ${d} 天 ${h} 小时 ${m} 分";
+    const textLife = timerElement.dataset.textLife || "您已经生活了 ${d} 天 ${h} 小时 ${m} 分";
     
     const updateTimer = () => {
       const now = new Date();
@@ -35,13 +58,13 @@ const { birthDate, mode = 'life' } = Astro.props;
         const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
         
-        // Format based on mode
-        if (mode === 'love') {
-           timerElement.textContent = `恋爱 ${days} 天 ${hours} 小时 ${minutes} 分`;
-        } else {
-           timerElement.textContent = `您已经生活了 ${days} 天 ${hours} 小时 ${minutes} 分`;
-        }
-        timerElement.style.opacity = '1';
+        let template = mode === 'love' ? textLove : textLife;
+        const result = template
+          .replace('${d}', days.toString())
+          .replace('${h}', hours.toString())
+          .replace('${m}', minutes.toString());
+          
+        timerElement.textContent = result;
       }
     };
 

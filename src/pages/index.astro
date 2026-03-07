@@ -9,33 +9,33 @@ const loveDate = '2026-02-05T12:23:00'
 const showCoupleMode = false; 
 
 // Avatar Images
-const avatar1 = "https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=minimalist%20male%20avatar%20portrait%20illustration%20simple%20line%20art%20style%20white%20background%20serene%20expression&image_size=square";
+const avatar1 = "/avatar.png";
 const avatar2 = "https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=minimalist%20female%20avatar%20portrait%20illustration%20simple%20line%20art%20style%20white%20background%20serene%20expression&image_size=square";
-const singleAvatar = "https://lf-cdn.trae.ai/obj/trae-ai-image-sg/page_image/e3c9c32c7847b1e422e2de724b806cb1.jpeg";
+const singleAvatar = "/avatar.png";
 ---
 
 <Layout title="Lover">
-  <main class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden">
+  <main class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden opacity-0" id="main-content">
     
     {showCoupleMode ? (
       <div class="relative z-10 transform translate-y-[-10%] flex items-center justify-center gap-4 sm:gap-8 md:gap-12 w-full max-w-4xl px-4">
         <!-- Avatar 1 -->
-        <div class="flex-shrink-0">
+        <div class="flex-shrink-0 avatar-wrapper">
           <Avatar size={150} magneticRange={150} src={avatar1} id="avatar-left" />
         </div>
         
         <!-- Connecting Heartbeat -->
-        <div class="flex-shrink-0 opacity-80 scale-125 md:scale-150 text-red-400">
+        <div class="flex-shrink-0 opacity-80 scale-125 md:scale-150 text-red-400 heartbeat-wrapper">
           <Heartbeat />
         </div>
         
         <!-- Avatar 2 -->
-        <div class="flex-shrink-0">
+        <div class="flex-shrink-0 avatar-wrapper">
           <Avatar size={150} magneticRange={150} src={avatar2} id="avatar-right" />
         </div>
       </div>
     ) : (
-      <div class="relative z-10 transform translate-y-[-10%]">
+      <div class="relative z-10 transform translate-y-[-10%] avatar-wrapper">
         <Avatar size={180} magneticRange={150} src={singleAvatar} id="avatar-single" />
       </div>
     )}
@@ -44,3 +44,39 @@ const singleAvatar = "https://lf-cdn.trae.ai/obj/trae-ai-image-sg/page_image/e3c
 
   <LifeTimer birthDate={showCoupleMode ? loveDate : birthDate} mode={showCoupleMode ? 'love' : 'life'} />
 </Layout>
+
+<script>
+  import { gsap } from "gsap";
+
+  const mainContent = document.getElementById('main-content');
+  const avatarWrappers = document.querySelectorAll('.avatar-wrapper');
+  const heartbeatWrapper = document.querySelector('.heartbeat-wrapper');
+
+  if (mainContent) {
+    const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+
+    tl.to(mainContent, {
+      opacity: 1,
+      duration: 1.5,
+      delay: 0.2
+    });
+
+    if (avatarWrappers.length > 0) {
+      tl.from(avatarWrappers, {
+        y: 30,
+        opacity: 0,
+        duration: 1.2,
+        stagger: 0.2
+      }, "-=1.0");
+    }
+
+    if (heartbeatWrapper) {
+      tl.from(heartbeatWrapper, {
+        scale: 0,
+        opacity: 0,
+        duration: 1,
+        ease: "elastic.out(1, 0.5)"
+      }, "-=0.8");
+    }
+  }
+</script>

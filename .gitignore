@@ -5,6 +5,7 @@ dist/
 ./vscode/
 .vscode/
 .trae/
+.agents/
 
 # dependencies
 node_modules/

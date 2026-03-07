@@ -1,0 +1,83 @@
+---
+import { content } from '../data/content';
+
+const lang = Astro.url.searchParams.get('lang') || 'zh';
+const currentContent = content[lang as keyof typeof content] || content['zh'];
+const { nav } = currentContent;
+
+// Helper to preserve current path but change lang
+const getLangLink = (targetLang: string) => {
+  const url = new URL(Astro.url);
+  url.searchParams.set('lang', targetLang);
+  return url.pathname + url.search;
+};
+
+const getNavLink = (path: string) => {
+  const separator = path.includes('?') ? '&' : '?';
+  return `${path}${separator}lang=${lang}`;
+};
+---
+
+<header class="fixed top-0 left-0 w-full z-50 px-6 py-4 md:px-12 md:py-6 flex justify-between items-center mix-blend-difference text-white opacity-0" id="main-header">
+  <div class="logo font-display text-2xl tracking-widest uppercase cursor-pointer hover:opacity-70 transition-opacity">
+    <a href={getNavLink('/')}>Lover</a>
+  </div>
+  
+  <nav class="hidden md:flex gap-8 font-light text-sm tracking-widest uppercase items-center">
+    <a href={getNavLink('/story')} class="hover:text-zinc-400 transition-colors relative group">
+      {nav.story}
+      <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
+    </a>
+    <a href={getNavLink('/gallery')} class="hover:text-zinc-400 transition-colors relative group">
+      {nav.gallery}
+      <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
+    </a>
+    <a href={`mailto:your@email.com`} class="hover:text-zinc-400 transition-colors relative group">
+      {nav.contact}
+      <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
+    </a>
+
+    <!-- Language Switcher -->
+    <div class="ml-4 flex gap-2 text-xs opacity-80 z-50 relative pointer-events-auto">
+      <a href={getLangLink('zh')} class={`hover:opacity-100 transition-opacity ${lang === 'zh' ? 'font-bold opacity-100' : ''}`}>CN</a>
+      <span>/</span>
+      <a href={getLangLink('en')} class={`hover:opacity-100 transition-opacity ${lang === 'en' ? 'font-bold opacity-100' : ''}`}>EN</a>
+    </div>
+  </nav>
+
+  <div class="md:hidden flex gap-4 items-center">
+     <!-- Mobile Lang Switcher (Simplified) -->
+    <div class="flex gap-2 text-xs opacity-80">
+      <a href={getLangLink('zh')} class={lang === 'zh' ? 'font-bold' : ''}>CN</a>
+      <a href={getLangLink('en')} class={lang === 'en' ? 'font-bold' : ''}>EN</a>
+    </div>
+
+    <button class="text-white focus:outline-none">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
+      </svg>
+    </button>
+  </div>
+</header>
+
+<script>
+  import { gsap } from "gsap";
+
+  const header = document.getElementById('main-header');
+  
+  if (header) {
+    gsap.to(header, {
+      opacity: 1,
+      y: 0,
+      duration: 1.5,
+      ease: "power3.out",
+      delay: 0.5
+    });
+  }
+</script>
+
+<style>
+  #main-header {
+    transform: translateY(-20px);
+  }
+</style>

@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import { content, galleryImages } from '../data/content';
 
-const lang = Astro.url.searchParams.get('lang') || 'zh';
+const lang = Astro.url.pathname === '/en/gallery' || Astro.url.pathname.startsWith('/en/') ? 'en' : 'zh';
 const currentContent = content[lang as keyof typeof content] || content['zh'];
 const { gallery } = currentContent;
 ---

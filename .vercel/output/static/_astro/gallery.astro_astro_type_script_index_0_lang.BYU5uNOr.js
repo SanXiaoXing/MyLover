@@ -1,0 +1,1 @@
+import{g as r}from"./index.CB87Sc6I.js";import{S as t}from"./ScrollTrigger.Cv03IO65.js";r.registerPlugin(t);const e=document.querySelectorAll(".gallery-item");e.length>0&&r.to(e,{opacity:1,y:0,duration:1.2,stagger:.15,ease:"power3.out",delay:.5});

@@ -1,0 +1,1 @@
+import{g as e}from"./index.CB87Sc6I.js";import{S as o}from"./ScrollTrigger.Cv03IO65.js";e.registerPlugin(o);const t=document.getElementById("timeline-line"),i=document.querySelectorAll(".timeline-item");t&&e.to(t,{scaleY:1,duration:1.5,ease:"power3.inOut",delay:.5});i.length>0&&e.to(i,{opacity:1,y:0,duration:1,stagger:.4,ease:"power3.out",delay:1});

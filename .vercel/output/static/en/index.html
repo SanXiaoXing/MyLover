@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><meta name="description" content="Lover - 个人主页"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet"><meta name="generator" content="Astro v5.18.0"><title>Lover</title><link rel="stylesheet" href="/_astro/gallery.BkU8mG9h.css">
+<style>.ripple-ring[data-astro-cid-s63xw3ci]{width:100%;height:100%;animation:ripple 3s linear infinite}.ripple-delay-1s[data-astro-cid-s63xw3ci]{animation-delay:1s}.ripple-delay-2s[data-astro-cid-s63xw3ci]{animation-delay:2s}@keyframes ripple{0%{transform:scale(1);opacity:.8;border-width:2px}to{transform:scale(3.5);opacity:0;border-width:0px}}
+</style></head> <body class="bg-white text-zinc-900 font-sans antialiased overflow-x-hidden min-h-screen flex flex-col selection:bg-zinc-200 selection:text-zinc-900 relative"> <header class="fixed top-0 left-0 w-full z-50 px-6 py-4 md:px-12 md:py-6 flex justify-between items-center mix-blend-difference text-white opacity-0" id="main-header" data-astro-cid-3ef6ksr2> <div class="logo font-display text-2xl tracking-widest uppercase cursor-pointer hover:opacity-70 transition-opacity" data-astro-cid-3ef6ksr2> <a href="/en" data-astro-cid-3ef6ksr2>Lover</a> </div> <nav class="hidden md:flex gap-8 font-light text-sm tracking-widest uppercase items-center" data-astro-cid-3ef6ksr2> <a href="/en/story" class="hover:text-zinc-400 transition-colors relative group" data-astro-cid-3ef6ksr2> Story <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full" data-astro-cid-3ef6ksr2></span> </a> <a href="/en/gallery" class="hover:text-zinc-400 transition-colors relative group" data-astro-cid-3ef6ksr2> Gallery <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full" data-astro-cid-3ef6ksr2></span> </a> <a href="mailto:your@email.com" class="hover:text-zinc-400 transition-colors relative group" data-astro-cid-3ef6ksr2> Contact <span class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full" data-astro-cid-3ef6ksr2></span> </a> <!-- Language Switcher --> <div class="ml-4 flex gap-2 text-xs opacity-80 z-50 relative pointer-events-auto" data-astro-cid-3ef6ksr2> <a href="/" class="hover:opacity-100 transition-opacity " data-astro-cid-3ef6ksr2>CN</a> <span data-astro-cid-3ef6ksr2>/</span> <a href="/en/" class="hover:opacity-100 transition-opacity font-bold opacity-100" data-astro-cid-3ef6ksr2>EN</a> </div> </nav> <div class="md:hidden flex gap-4 items-center" data-astro-cid-3ef6ksr2> <!-- Mobile Lang Switcher (Simplified) --> <div class="flex gap-2 text-xs opacity-80" data-astro-cid-3ef6ksr2> <a href="/" class data-astro-cid-3ef6ksr2>CN</a> <a href="/en/" class="font-bold" data-astro-cid-3ef6ksr2>EN</a> </div> <button class="text-white focus:outline-none" data-astro-cid-3ef6ksr2> <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" data-astro-cid-3ef6ksr2> <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" data-astro-cid-3ef6ksr2></path> </svg> </button> </div> </header> <script type="module" src="/_astro/Header.astro_astro_type_script_index_0_lang.CJDfUZHu.js"></script>   <main class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden opacity-0" id="main-content"> <div class="relative z-10 transform translate-y-[-10%] avatar-wrapper"> <div id="avatar-single-anchor" class="avatar-anchor relative flex items-center justify-center group" data-magnetic-range="150"> <div id="avatar-single-moving-part" class="avatar-moving-part relative z-10 will-change-transform cursor-pointer flex items-center justify-center"> <!-- Ripple inside moving part so it follows the avatar --> <div class="absolute inset-0 z-0 flex items-center justify-center"> <div style="width: 180px; height: 180px; position: relative;"> <div class="absolute inset-0 flex items-center justify-center -z-10 pointer-events-none overflow-visible" data-astro-cid-s63xw3ci> <div class="ripple-ring absolute rounded-full border border-zinc-200 opacity-0 ripple-delay-0" data-astro-cid-s63xw3ci></div> <div class="ripple-ring absolute rounded-full border border-zinc-200 opacity-0 ripple-delay-1s" data-astro-cid-s63xw3ci></div> <div class="ripple-ring absolute rounded-full border border-zinc-200 opacity-0 ripple-delay-2s" data-astro-cid-s63xw3ci></div> </div>  </div> </div> <!-- Avatar Image --> <div class="relative z-10 rounded-full overflow-hidden shadow-sm border-2 border-zinc-50 bg-white hover:shadow-md transition-shadow duration-300" style="width: 180px; height: 180px;"> <img src="/avatar.png" alt="Avatar" class="w-full h-full object-cover" width="180" height="180" loading="eager"> </div> </div> </div> <script>(function(){const anchorId = "avatar-single-anchor";
+const movingPartId = "avatar-single-moving-part";
+
+  const anchor = document.getElementById(anchorId);
+  const movingPart = document.getElementById(movingPartId);
+  
+  if (anchor && movingPart) {
+    const range = parseInt(anchor.dataset.magneticRange || '150', 10);
+    
+    let ticking = false;
+    let isHovering = false;
+
+    // Apply initial transition style for smooth return
+    movingPart.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    
+    const updatePosition = (e) => {
+      // Calculate center based on the STATIC anchor
+      const rect = anchor.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
+      
+      const distanceX = e.clientX - centerX;
+      const distanceY = e.clientY - centerY;
+      const distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
+
+      if (distance < range) {
+        if (!isHovering) {
+          isHovering = true;
+          // When hovering, use a quicker transition for responsiveness
+          movingPart.style.transition = 'transform 0.1s ease-out';
+        }
+
+        // Magnetic pull strength
+        const strength = 0.4; 
+        const x = distanceX * strength;
+        const y = distanceY * strength;
+        
+        movingPart.style.transform = `translate(${x}px, ${y}px)`;
+      } else {
+        if (isHovering) {
+          isHovering = false;
+          // When leaving (snapping back), use elastic transition
+          movingPart.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+          movingPart.style.transform = 'translate(0, 0)';
+        }
+      }
+    };
+
+    document.addEventListener('mousemove', (e) => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updatePosition(e);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+    
+    document.addEventListener('mouseleave', () => {
+       isHovering = false;
+       movingPart.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+       movingPart.style.transform = 'translate(0, 0)';
+    });
+  }
+})();</script> </div> </main> <div class="fixed bottom-24 left-0 right-0 text-center select-none pointer-events-none opacity-0 translate-y-4" id="life-timer-container"> <span id="life-timer" class="font-body text-zinc-400 text-sm tracking-wide" data-birth-date="2000-08-02T03:24:00.000Z" data-mode="life" data-text-love="In love for ${d} days ${h} hours ${m} mins" data-text-life="I have lived for ${d} days ${h} hours ${m} mins"> <!-- Initial render on server if possible? No, time changes. --> Calculating... </span> </div> <script type="module" src="/_astro/LifeTimer.astro_astro_type_script_index_0_lang.D2V7BLoo.js"></script>  <footer class="fixed bottom-0 left-0 w-full z-50 px-6 py-4 md:px-12 md:py-6 flex justify-between items-end mix-blend-difference text-white opacity-0 pointer-events-none md:pointer-events-auto" id="main-footer" data-astro-cid-sz7xmlte> <div class="text-xs font-light tracking-widest opacity-60" data-astro-cid-sz7xmlte>
+&copy; 2026 LOVER. ALL RIGHTS RESERVED.
+</div> <div class="flex gap-6 text-xs font-light tracking-widest uppercase" data-astro-cid-sz7xmlte> <a href="https://v.douyin.com/UdSnt7JD9Ss/ 9@2.com " class="hover:opacity-60 transition-opacity pointer-events-auto" data-astro-cid-sz7xmlte>TikTok</a> <a href="https://space.bilibili.com/476596573" class="hover:opacity-60 transition-opacity pointer-events-auto" data-astro-cid-sz7xmlte>Bilibili</a> </div> </footer> <script type="module" src="/_astro/Footer.astro_astro_type_script_index_0_lang.Ckkm6ccr.js"></script>  </body></html> <script type="module" src="/_astro/index.astro_astro_type_script_index_0_lang.bRL0-I6a.js"></script>

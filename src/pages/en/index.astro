@@ -1,14 +1,13 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Avatar from '../components/Avatar.astro';
-import LifeTimer from '../components/LifeTimer.astro';
-import Heartbeat from '../components/Heartbeat.astro';
+import Layout from '../../layouts/Layout.astro';
+import Avatar from '../../components/Avatar.astro';
+import LifeTimer from '../../components/LifeTimer.astro';
+import Heartbeat from '../../components/Heartbeat.astro';
 
-const birthDate = '2000-08-02T11:24:00'; 
-const loveDate = '2026-02-05T12:23:00'
-const showCoupleMode = false; 
+const birthDate = '2000-08-02T11:24:00';
+const loveDate = '2026-02-05T12:23:00';
+const showCoupleMode = false;
 
-// Avatar Images
 const avatar1 = "/avatar.png";
 const avatar2 = "https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=minimalist%20female%20avatar%20portrait%20illustration%20simple%20line%20art%20style%20white%20background%20serene%20expression&image_size=square";
 const singleAvatar = "/avatar.png";
@@ -16,20 +15,16 @@ const singleAvatar = "/avatar.png";
 
 <Layout title="Lover">
   <main class="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden opacity-0" id="main-content">
-    
     {showCoupleMode ? (
       <div class="relative z-10 transform translate-y-[-10%] flex items-center justify-center gap-4 sm:gap-8 md:gap-12 w-full max-w-4xl px-4">
-        <!-- Avatar 1 -->
         <div class="flex-shrink-0 avatar-wrapper">
           <Avatar size={150} magneticRange={150} src={avatar1} id="avatar-left" />
         </div>
-        
-        <!-- Connecting Heartbeat -->
+
         <div class="flex-shrink-0 opacity-80 scale-125 md:scale-150 text-red-400 heartbeat-wrapper">
           <Heartbeat />
         </div>
-        
-        <!-- Avatar 2 -->
+
         <div class="flex-shrink-0 avatar-wrapper">
           <Avatar size={150} magneticRange={150} src={avatar2} id="avatar-right" />
         </div>
@@ -39,7 +34,6 @@ const singleAvatar = "/avatar.png";
         <Avatar size={180} magneticRange={150} src={singleAvatar} id="avatar-single" />
       </div>
     )}
-
   </main>
 
   <LifeTimer birthDate={showCoupleMode ? loveDate : birthDate} mode={showCoupleMode ? 'love' : 'life'} />

@@ -1,20 +1,27 @@
 ---
 import { content } from '../data/content';
 
-const lang = Astro.url.searchParams.get('lang') || 'zh';
+const isEn = Astro.url.pathname === '/en' || Astro.url.pathname.startsWith('/en/');
+const lang = isEn ? 'en' : 'zh';
 const currentContent = content[lang as keyof typeof content] || content['zh'];
 const { nav } = currentContent;
 
-// Helper to preserve current path but change lang
 const getLangLink = (targetLang: string) => {
-  const url = new URL(Astro.url);
-  url.searchParams.set('lang', targetLang);
-  return url.pathname + url.search;
+  const currentPath = Astro.url.pathname;
+
+  if (targetLang === 'en') {
+    if (isEn) return currentPath;
+    return currentPath === '/' ? '/en' : `/en${currentPath}`;
+  }
+
+  if (!isEn) return currentPath;
+  const zhPath = currentPath.replace(/^\/en(\/|$)/, '/');
+  return zhPath === '' ? '/' : zhPath;
 };
 
 const getNavLink = (path: string) => {
-  const separator = path.includes('?') ? '&' : '?';
-  return `${path}${separator}lang=${lang}`;
+  if (!isEn) return path;
+  return path === '/' ? '/en' : `/en${path}`;
 };
 ---
 

@@ -8,10 +8,11 @@ interface Props {
 }
 
 const { title } = Astro.props;
+const htmlLang = Astro.url.pathname === '/en' || Astro.url.pathname.startsWith('/en/') ? 'en' : 'zh-CN';
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={htmlLang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content="Lover - 个人主页" />

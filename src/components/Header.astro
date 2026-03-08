@@ -52,20 +52,50 @@ const getNavLink = (path: string) => {
     </div>
   </nav>
 
-  <div class="md:hidden flex gap-4 items-center">
-     <!-- Mobile Lang Switcher (Simplified) -->
+  <div class="md:hidden flex items-center gap-3">
     <div class="flex gap-2 text-xs opacity-80">
       <a href={getLangLink('zh')} class={lang === 'zh' ? 'font-bold' : ''}>CN</a>
       <a href={getLangLink('en')} class={lang === 'en' ? 'font-bold' : ''}>EN</a>
     </div>
 
-    <button class="text-white focus:outline-none">
-      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9h16.5m-16.5 6.75h16.5" />
-      </svg>
+    <button id="mobile-nav-toggle" class="text-white focus:outline-none" aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span class="sr-only">Menu</span>
+      <span class="hamburger">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </span>
     </button>
   </div>
 </header>
+
+<div id="mobile-nav" class="mobile-nav pointer-events-none opacity-0" aria-hidden="true">
+  <div class="mobile-nav-overlay" data-mobile-close></div>
+  <div class="mobile-nav-panel" role="dialog" aria-modal="true" aria-label="Navigation">
+    <div class="mobile-nav-top">
+      <div class="font-body text-xs tracking-[0.35em] uppercase opacity-60">
+        Menu
+      </div>
+      <button class="mobile-nav-close" data-mobile-close aria-label="Close">
+        <span class="close-x"></span>
+      </button>
+    </div>
+
+    <div class="mobile-nav-links">
+      <a class="mobile-nav-link" href={getNavLink('/')} data-mobile-link>Home</a>
+      <a class="mobile-nav-link" href={getNavLink('/story')} data-mobile-link>{nav.story}</a>
+      <a class="mobile-nav-link" href={getNavLink('/gallery')} data-mobile-link>{nav.gallery}</a>
+      <a class="mobile-nav-link" href={`mailto:sanxiaoxing@qq.com`} data-mobile-link>{nav.contact}</a>
+    </div>
+
+    <div class="mobile-nav-footer">
+      <div class="mobile-lang">
+        <a href={getLangLink('zh')} data-mobile-link class={`mobile-lang-link ${lang === 'zh' ? 'is-active' : ''}`}>中文</a>
+        <span class="mobile-lang-sep">/</span>
+        <a href={getLangLink('en')} data-mobile-link class={`mobile-lang-link ${lang === 'en' ? 'is-active' : ''}`}>English</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script>
   import { gsap } from "gsap";
@@ -81,10 +111,252 @@ const getNavLink = (path: string) => {
       delay: 0.5
     });
   }
+
+  const toggle = document.getElementById('mobile-nav-toggle');
+  const nav = document.getElementById('mobile-nav');
+
+  if (toggle && nav) {
+    const panel = nav.querySelector('.mobile-nav-panel');
+    const overlay = nav.querySelector('.mobile-nav-overlay');
+    const closeTargets = nav.querySelectorAll('[data-mobile-close]');
+    const links = nav.querySelectorAll('[data-mobile-link]');
+
+    const items = nav.querySelectorAll('.mobile-nav-link');
+    const tl = gsap.timeline({ paused: true, defaults: { ease: "power3.out" } });
+
+    tl.set(nav, { pointerEvents: "auto" });
+    tl.to(nav, { opacity: 1, duration: 0.25 }, 0);
+    if (overlay) tl.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.35 }, 0);
+    if (panel) tl.fromTo(panel, { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, 0.05);
+    if (items.length > 0) {
+      tl.fromTo(items, { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.06 }, 0.12);
+    }
+
+    const setOpenState = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      nav.setAttribute('aria-hidden', open ? 'false' : 'true');
+      document.documentElement.classList.toggle('mobile-nav-open', open);
+      toggle.classList.toggle('is-open', open);
+    };
+
+    let isOpen = false;
+    const open = () => {
+      if (isOpen) return;
+      isOpen = true;
+      setOpenState(true);
+      tl.play(0);
+    };
+    const close = () => {
+      if (!isOpen) return;
+      isOpen = false;
+      setOpenState(false);
+      tl.reverse();
+    };
+
+    tl.eventCallback('onReverseComplete', () => {
+      gsap.set(nav, { pointerEvents: "none" });
+    });
+
+    toggle.addEventListener('click', () => {
+      if (isOpen) close();
+      else open();
+    });
+
+    closeTargets.forEach((el) => el.addEventListener('click', close));
+    links.forEach((el) => el.addEventListener('click', close));
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+  }
 </script>
 
 <style>
   #main-header {
     transform: translateY(-20px);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .hamburger {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .hamburger-line {
+    position: absolute;
+    width: 18px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.92);
+    transform-origin: center;
+    transition: transform 300ms cubic-bezier(0.2, 0.9, 0.2, 1), opacity 250ms ease;
+  }
+
+  .hamburger-line:nth-child(1) {
+    transform: translateY(-4px);
+  }
+
+  .hamburger-line:nth-child(2) {
+    transform: translateY(4px);
+  }
+
+  #mobile-nav-toggle.is-open .hamburger-line:nth-child(1) {
+    transform: rotate(45deg);
+  }
+
+  #mobile-nav-toggle.is-open .hamburger-line:nth-child(2) {
+    transform: rotate(-45deg);
+  }
+
+  .mobile-nav {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+  }
+
+  .mobile-nav-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .mobile-nav-panel {
+    position: absolute;
+    left: 16px;
+    right: 16px;
+    top: 18px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.86);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+  }
+
+  .mobile-nav-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 18px 12px;
+  }
+
+  .mobile-nav-close {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(255, 255, 255, 0.6);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .close-x {
+    width: 14px;
+    height: 14px;
+    position: relative;
+    display: inline-block;
+  }
+
+  .close-x::before,
+  .close-x::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 14px;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.55);
+  }
+
+  .close-x::before {
+    transform: rotate(45deg);
+  }
+
+  .close-x::after {
+    transform: rotate(-45deg);
+  }
+
+  .mobile-nav-links {
+    padding: 6px 18px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mobile-nav-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 14px;
+    border-radius: 14px;
+    color: rgba(9, 9, 11, 0.92);
+    background: rgba(255, 255, 255, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    font-family: var(--font-body);
+    font-size: 14px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    transition: transform 220ms cubic-bezier(0.2, 0.9, 0.2, 1), background 220ms ease, border-color 220ms ease;
+  }
+
+  .mobile-nav-link:active {
+    transform: scale(0.985);
+  }
+
+  .mobile-nav-footer {
+    padding: 14px 18px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.62);
+  }
+
+  .mobile-lang {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-body);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(9, 9, 11, 0.65);
+  }
+
+  .mobile-lang-link {
+    color: inherit;
+    opacity: 0.75;
+    transition: opacity 200ms ease;
+  }
+
+  .mobile-lang-link.is-active {
+    opacity: 1;
+    color: rgba(9, 9, 11, 0.92);
+    font-weight: 700;
+  }
+
+  .mobile-lang-sep {
+    opacity: 0.35;
+  }
+
+  :global(html.mobile-nav-open),
+  :global(html.mobile-nav-open body) {
+    overflow: hidden;
   }
 </style>

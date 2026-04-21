@@ -6,13 +6,15 @@ interface Props {
   magneticRange?: number;
   src?: string;
   id?: string;
+  coupleMode?: boolean;
 }
 
 const { 
   size = 150, 
   magneticRange = 100, 
   src = "https://coresg-normal.trae.ai/api/ide/v1/text_to_image?prompt=minimalist%20avatar%20portrait%20illustration%20simple%20line%20art%20style%20white%20background%20serene%20expression&image_size=square",
-  id = 'avatar-default'
+  id = 'avatar-default',
+  coupleMode = false
 } = Astro.props;
 
 const anchorId = `${id}-anchor`;
@@ -28,7 +30,7 @@ const movingPartId = `${id}-moving-part`;
     <!-- Ripple inside moving part so it follows the avatar -->
     <div class="absolute inset-0 z-0 flex items-center justify-center">
         <div style={`width: ${size}px; height: ${size}px; position: relative;`}>
-            <Ripple />
+            <Ripple coupleMode={coupleMode} />
         </div>
     </div>
 
